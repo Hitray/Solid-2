@@ -2,24 +2,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Purchase {
- 
+
     private final Map<String, Integer> products;
     private final Map<String, Integer> purchases = new HashMap<>();
 
 
-
-
-
- 
     public Purchase() {
-        // Dependency Inversion Principle - в принципе сюда подходит
-        // описываем интерфейс, скрывая реализацию (может там вообще SQL)
-        DataBase dataBase = Data.getInstance();
+
+        GenDase dataBase = Gate.getInstance();
         products = dataBase.getProducts();
     }
 
     public void addPurchase(String title, int count) {
-        // Тут как всегда - добавляем или апдейтим энтри продаж
+
         purchases.put(title, purchases.getOrDefault(title, 0) + count);
 
     }
@@ -37,7 +32,6 @@ public class Purchase {
     }
 
 
-  
     public void printShowCase() {
         System.out.println("В МАГАЗИНЕ В НАЛИЧИИ");
         for (Map.Entry<String, Integer> productAndPrice : products.entrySet()) {
