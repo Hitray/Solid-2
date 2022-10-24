@@ -1,42 +1,30 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class Purchase {
 
-    private final Map<String, Integer> products;
-    private final Map<String, Integer> purchases = new HashMap<>();
+import static java.util.Map.entry;
+// Конструктор
+public class Gate implements GenDase {
+    public static final Gate INSTANCE = new Gate();
 
-
-    public Purchase() {
-
-        GenDase dataBase = Gate.getInstance();
-        products = dataBase.getProducts();
+    private static final Map<String, Integer> products = Map.ofEntries(
+            entry("Хлеб", 56),
+            entry("Масло", 153),
+            entry("Колбаса", 211),
+            entry("Пирожок", 45)
+    );
+// отдельно вывели из Main
+    @Override
+    public Map<String, Integer> getProducts() {
+        return new HashMap<>(products);
     }
 
-    public void addPurchase(String title, int count) {
-
-        purchases.put(title, purchases.getOrDefault(title, 0) + count);
-
+   
+    private Gate() {
     }
 
-    public void printPurchases() {
-
-        long sum = 0;
-        System.out.println("КОРЗИНА:");
-        for (Map.Entry<String, Integer> entryMap : purchases.entrySet()) {
-            System.out.println("\t" + entryMap.getKey() + " " + entryMap.getValue()
-                    + " шт. в сумме " + (entryMap.getValue() * products.get(entryMap.getKey()) + " руб."));
-            sum += (long) entryMap.getValue() * products.get(entryMap.getKey());
-        }
-        System.out.println("ИТОГО: " + sum);
-    }
-
-
-    public void printShowCase() {
-        System.out.println("В МАГАЗИНЕ В НАЛИЧИИ");
-        for (Map.Entry<String, Integer> productAndPrice : products.entrySet()) {
-            System.out.println(productAndPrice.getKey() + " за " + productAndPrice.getValue() + " руб./шт.");
-        }
-        System.out.println("Введите два слова: название товара и количество. Или end");
+    
+    public static Gate getInstance() {
+        return INSTANCE;
     }
 }
