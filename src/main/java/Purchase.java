@@ -1,42 +1,32 @@
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Purchase {
+    protected String title;
+    protected int count;
+    protected List<Purchase> purchases = new ArrayList<>();
 
-    private final Map<String, Integer> products;
-    private final Map<String, Integer> purchases = new HashMap<>();
-
+    public Purchase(String title, int count) {
+        this.title = title;
+        this.count = count;
+    }
 
     public Purchase() {
-
-        GenDase dataBase = Gate.getInstance();
-        products = dataBase.getProducts();
     }
 
     public void addPurchase(String title, int count) {
+        for (int i = 0; i < purchases.size(); i++) {
+            if (purchases.get(i).title.equals(title)) {
+                purchases.get(i).count += count;
+                return;
+            }
+        }
 
-        purchases.put(title, purchases.getOrDefault(title, 0) + count);
-
+        purchases.add(new Purchase(title, count));
     }
 
-    public void printPurchases() {
-
-        long sum = 0;
-        System.out.println("КОРЗИНА:");
-        for (Map.Entry<String, Integer> entryMap : purchases.entrySet()) {
-            System.out.println("\t" + entryMap.getKey() + " " + entryMap.getValue()
-                    + " шт. в сумме " + (entryMap.getValue() * products.get(entryMap.getKey()) + " руб."));
-            sum += (long) entryMap.getValue() * products.get(entryMap.getKey());
-        }
-        System.out.println("ИТОГО: " + sum);
-    }
-
-
-    public void printShowCase() {
-        System.out.println("В МАГАЗИНЕ В НАЛИЧИИ");
-        for (Map.Entry<String, Integer> productAndPrice : products.entrySet()) {
-            System.out.println(productAndPrice.getKey() + " за " + productAndPrice.getValue() + " руб./шт.");
-        }
-        System.out.println("Введите два слова: название товара и количество. Или end");
+    public List<Purchase> getPurchases(){
+        return purchases;
     }
 }
