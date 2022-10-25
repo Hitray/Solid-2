@@ -1,30 +1,25 @@
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+public class Gate {
+    protected List<Purchase> purchases;
 
-import static java.util.Map.entry;
-// Конструктор
-public class Gate implements GenDase {
-    public static final Gate INSTANCE = new Gate();
-
-    private static final Map<String, Integer> products = Map.ofEntries(
-            entry("Хлеб", 56),
-            entry("Масло", 153),
-            entry("Колбаса", 211),
-            entry("Пирожок", 45)
-    );
-// отдельно вывели из Main
-    @Override
-    public Map<String, Integer> getProducts() {
-        return new HashMap<>(products);
+    public Gate(List<Purchase> purchases){
+        this.purchases = purchases;
     }
 
-   
-    private Gate() {
+    public Gate(Purchase[] purchases){
+        this.purchases = new ArrayList<>(List.of(purchases));
     }
 
-    
-    public static Gate getInstance() {
-        return INSTANCE;
+    public long sum(Map<String, Integer> prices) {
+        long sum = 0;
+        for (int i = 0; i < purchases.size(); i++) {
+            Purchase purchase = purchases.get(i);
+            if (purchase == null) continue;
+            sum += purchase.count * prices.get(purchase.title);
+        }
+        return sum;
     }
 }
