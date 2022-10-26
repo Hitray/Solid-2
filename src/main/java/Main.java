@@ -28,8 +28,8 @@ public class Main {
             purchase.addPurchase(product, count);
         }
 
-        GenDase  GenDase = new GenDase (purchase.getPurchases());
-        long sum = GenDase.sum(products);
+        Gate  gate = new Gate (purchase.getPurchases());
+        long sum = gate.sum(products);
 
         GenDase.showAllProductsPricesAndAmount(products, purchase.getPurchases());
 
